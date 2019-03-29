@@ -3,9 +3,9 @@ title: Homework L03
 subtitle: Eder Tobias, 01402652
 ---
 
-image: "/img/GitCodeAc.png
+**Scrennshots:**
 
-image: "/img/avatar-icon.png"
+![CodeAcademy](../img/GitCodeAc.png)
 
-![](../img/GitCodeAc.png)
+![MarkdownTut](../img/Markdown.png)
 
