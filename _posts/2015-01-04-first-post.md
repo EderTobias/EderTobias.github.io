@@ -3,7 +3,7 @@ title: Homework
 subtitle: Eder Tobias, 01402652
 ---
 
-**Scrennshots:**
+**Screenshots:**
 
 ![CodeAcademy](../img/GitCodeAc.png)
 
