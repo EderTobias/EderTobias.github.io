@@ -1,0 +1,184 @@
+---
+layout: page
+title: Homework 10
+subtitle: Eder Tobias, 01402652
+---
+#Homework 10
+
+## Step 1:
+
+I did make some mistake here (or maybe several), but that's the way I thought it could be done.
+
+```
+import os, re
+
+source_folder = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\wgetfolder\\Articles3\\"
+target_folder = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\_Aufgaben\\PlaceNames\\"
+path_to_geonames = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\_Aufgaben\\PlaceNames\\US\\"
+
+list_of_files = os.listdir(source_folder)
+
+
+dicFreq = {}
+list_of_places = []
+resultsCSV = []
+
+
+for f in list_of_files:     #looping through the files from the 'Dispatch'
+    with open(source_folder + f, "r", encoding="utf8") as f1:
+        placename = re.findall(r'<placeName reg=".*" key=".*" authname=".*">', f) #finding the placenames
+        if "tgn,[0-9]+" in placename:
+            reg = re.search(r'reg="[A-Z]+"', f).group(1)    #getting the placenames
+            key = re.search(r'key="tgn,[0-9]+"', f).group(1) #getting the tgn
+
+            placename = "%09d\t%s" % (reg, key) #appending placenames and tgn to a variable "placename"
+
+            
+        list_of_places.append(placename) #appending the placenames to a list
+
+
+def places_frequency(list_of_places):   #defining a function to create a dictionary that counts the frequency of the placenames
+    placefreq = [list_of_places.count(p) for p in list_of_places]
+    return dict(zip(list_of_places, placefreq))
+
+
+dicfreq = places_frequency #storing the function into a variable
+
+        
+
+for key, value in dicfreq.items():  #creating a csv-file for the frequency of the placenames as described on the course-website
+    if value > 1:
+        newVal = "%09d\t%s" % (value, key)
+        resultsCSV.append(newVal)
+
+resultsCSV = sorted(resultsCSV, reverse=True)
+print(len(resultsCSV))
+resultsToSave = "\n".join(resultsCSV) 
+
+with open(target_folder+"results.csv", "w", encoding="utf8") as f9: #creating a csv-file for the frequency of the placenames as described on the course-website
+    f9.write("\n".join(resultsCSV))
+
+with open(target_folder+"placenames.csv", "w", encoding="utf8") as f9:      #creating csv-file for the placenames
+    f9.write("\n".join(list_of_places))
+    
+```
+
+##Step 2:
+
+Step 2 is were I failed completely, as I couldn't find a solution for getting the relevant date from the Geonames-file
+
+```
+python_dictionary1 = {                  #creating the python_dictionary1 where keys are placenames and values 
+    (list_of_places, list_of_places
+    }
+
+python_dictionary2 = {          #?????? get placename, lat, lon --> unfortunately, I have no idea how to get that data with regex
+    }
+
+toponyms = {}
+```
+
+##Step 3:
+
+Looping through the two dictionaries and matching, creating a new file: toponyms.csv
+
+```
+for i in python_dictionary1:    #looping through python_dictionary1 & checking if placenames/keys match
+    if i == key in python_dictionary2:
+        toponyms.append(key)    #if they match, append them to the new toponyms dictionary; as the keys in python_dictionary2 should have the placename, lat, lon and the frequency as value, those values shuld then be the values of the keys in the toponyms-dictionary
+    else:
+        print("No match!")
+
+with open(target_folder+"toponyms.csv", "w", encoding="utf8") as f9: #creating a toponyms.csv-file 
+    f9.write("\n".join(toponyms))
+```
+
+## Code alltogether:
+
+```
+import os, re
+
+source_folder = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\wgetfolder\\Articles3\\"
+target_folder = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\_Aufgaben\\PlaceNames\\"
+path_to_geonames = "C:\\Users\\Tobias\\Desktop\\UNI\\_MA Geschichte\\Zweites Semester\\KU Digital Humanities\\_Aufgaben\\PlaceNames\\US\\"
+
+list_of_files = os.listdir(source_folder)
+
+
+dicFreq = {}
+list_of_places = []
+resultsCSV = []
+
+
+for f in list_of_files:     #looping through the files from the 'Dispatch'
+    with open(source_folder + f, "r", encoding="utf8") as f1:
+        placename = re.findall(r'<placeName reg=".*" key=".*" authname=".*">', f) #finding the placenames
+        if "tgn,[0-9]+" in placename:
+            reg = re.search(r'reg="[A-Z]+"', f).group(1)    #getting the placenames
+            key = re.search(r'key="tgn,[0-9]+"', f).group(1) #getting the tgn
+
+            placename = "%09d\t%s" % (reg, key) #appending placenames and tgn to a variable "placename"
+
+            
+        list_of_places.append(placename) #appending the placenames to a list
+
+
+def places_frequency(list_of_places):   #defining a function to create a dictionary that counts the frequency of the placenames
+    placefreq = [list_of_places.count(p) for p in list_of_places]
+    return dict(zip(list_of_places, placefreq))
+
+
+dicfreq = places_frequency #storing the function into a variable
+
+        
+
+for key, value in dicfreq.items():  #creating a csv-file for the frequency of the placenames as described on the course-website
+    if value > 1:
+        newVal = "%09d\t%s" % (value, key)
+        resultsCSV.append(newVal)
+
+resultsCSV = sorted(resultsCSV, reverse=True)
+print(len(resultsCSV))
+resultsToSave = "\n".join(resultsCSV) 
+
+with open(target_folder+"results.csv", "w", encoding="utf8") as f9: #creating a csv-file for the frequency of the placenames as described on the course-website
+    f9.write("\n".join(resultsCSV))
+
+with open(target_folder+"placenames.csv", "w", encoding="utf8") as f9:      #creating csv-file for the placenames
+    f9.write("\n".join(list_of_places))
+
+
+
+python_dictionary1 = {                  #creating the python_dictionary1 where keys are placenames and values 
+    (list_of_places, list_of_places
+    }
+
+python_dictionary2 = {          #?????? get placename, lat, lon --> unfortunately, I have no idea how to get that data with regex
+    }
+
+toponyms = {}
+
+for i in python_dictionary1:    #looping through python_dictionary1 & checking if placenames/keys match
+    if i == key in python_dictionary2:
+        toponyms.append(key)    #if they match, append them to the new toponyms dictionary; as the keys in python_dictionary2 should have the placename, lat, lon and the frequency as value, those values shuld then be the values of the keys in the toponyms-dictionary
+    else:
+        print("No match!")
+
+with open(target_folder+"toponyms.csv", "w", encoding="utf8") as f9: #creating a toponyms.csv-file 
+    f9.write("\n".join(toponyms))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
