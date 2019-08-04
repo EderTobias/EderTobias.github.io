@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Homework04 
+title: Homework 04 
 subtitle: Eder Tobias, 01402652
 ---
 
